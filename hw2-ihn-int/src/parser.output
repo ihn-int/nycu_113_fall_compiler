@@ -1,0 +1,2703 @@
+Terminals unused in grammar
+
+    KW_DEF
+    CHAR
+    SPACE
+
+
+State 166 conflicts: 13 shift/reduce
+
+
+Grammar
+
+    0 $accept: NT_PROGRAM $end
+
+    1 NT_PROGRAM: IDENTIFIER SEMICOLON NT_DECLARATION_LIST_OPT NT_FUNCTION_LIST_OPT NT_COMPOUND_STATEMENT KW_END
+
+    2 NT_DECLARATION_LIST_OPT: %empty
+    3                        | NT_DECLARATION_LIST
+
+    4 NT_DECLARATION_LIST: NT_DECLARATION NT_DECLARATION_LIST
+    5                    | NT_DECLARATION
+
+    6 NT_FUNCTION_LIST_OPT: %empty
+    7                     | NT_FUNCTION_LIST
+
+    8 NT_FUNCTION_LIST: NT_FUNCTION NT_FUNCTION_LIST
+    9                 | NT_FUNCTION
+
+   10 NT_FUNCTION: NT_FUNCTION_DECLARATION
+   11            | NT_FUNCTION_DEFINITION
+
+   12 NT_FUNCTION_HEADER: IDENTIFIER LEFT_PAREN NT_FORMAL_ARG_LIST_OPT RIGHT_PAREN NT_RETURN_TYPE
+
+   13 NT_FORMAL_ARG_LIST_OPT: %empty
+   14                       | NT_FORMAL_ARG_LIST
+
+   15 NT_FORMAL_ARG_LIST: NT_FORMAL_ARG SEMICOLON NT_FORMAL_ARG_LIST
+   16                   | NT_FORMAL_ARG
+
+   17 NT_RETURN_TYPE: %empty
+   18               | COLON NT_SCALAR_TYPE
+
+   19 NT_FUNCTION_DECLARATION: NT_FUNCTION_HEADER SEMICOLON
+
+   20 NT_FUNCTION_DEFINITION: NT_FUNCTION_HEADER NT_COMPOUND_STATEMENT KW_END
+
+   21 NT_FORMAL_ARG: NT_IDENTIFIER_LIST COLON NT_TYPE
+
+   22 NT_DECLARATION: NT_VARIABLE_DECLARATION
+   23               | NT_CONSTANT_DECLARATION
+
+   24 NT_VARIABLE_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_TYPE SEMICOLON
+
+   25 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON SUB NT_INTEGER_LITERAL SEMICOLON
+   26                        | KW_VAR NT_IDENTIFIER_LIST COLON NT_INTEGER_LITERAL SEMICOLON
+   27                        | KW_VAR NT_IDENTIFIER_LIST COLON SUB NT_REAL_LITERAL SEMICOLON
+   28                        | KW_VAR NT_IDENTIFIER_LIST COLON NT_REAL_LITERAL SEMICOLON
+   29                        | KW_VAR NT_IDENTIFIER_LIST COLON NT_STRING_LITERAL SEMICOLON
+   30                        | KW_VAR NT_IDENTIFIER_LIST COLON NT_BOOLEAN_LITERAL SEMICOLON
+
+   31 NT_IDENTIFIER_LIST: IDENTIFIER COMMA NT_IDENTIFIER_LIST
+   32                   | IDENTIFIER
+
+   33 NT_TYPE: NT_SCALAR_TYPE
+   34        | NT_ARRAY_TYPE
+
+   35 NT_SCALAR_TYPE: KW_INT
+   36               | KW_REAL
+   37               | KW_STR
+   38               | KW_BOOL
+
+   39 NT_ARRAY_TYPE: KW_ARRAY NT_INTEGER_LITERAL KW_OF NT_TYPE
+
+   40 NT_STATEMENT: NT_SIMPLE_STATEMENT
+   41             | NT_CONDITIONAL_STATEMENT
+   42             | NT_FUNCTION_CALL_STATEMENT
+   43             | NT_LOOP_STATEMENT
+   44             | NT_RETURN_STATEMENT
+   45             | NT_COMPOUND_STATEMENT
+
+   46 NT_SIMPLE_STATEMENT: NT_ASSIGNMENT
+   47                    | NT_PRINT_STATEMENT
+   48                    | NT_READ_STATEMENT
+
+   49 NT_ASSIGNMENT: NT_VARIABLE_REFERENCE ASSIGNMENT NT_EXPRESSION SEMICOLON
+
+   50 NT_PRINT_STATEMENT: KW_PRINT NT_EXPRESSION SEMICOLON
+
+   51 NT_READ_STATEMENT: KW_READ NT_EXPRESSION SEMICOLON
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_ELSE NT_COMPOUND_STATEMENT KW_END KW_IF
+   53                         | KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_END KW_IF
+
+   54 NT_FUNCTION_CALL_STATEMENT: NT_FUNCTION_CALL SEMICOLON
+
+   55 NT_LOOP_STATEMENT: KW_WHILE NT_EXPRESSION KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+   56                  | KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+   57 NT_RETURN_STATEMENT: KW_RETURN NT_EXPRESSION SEMICOLON
+
+   58 NT_COMPOUND_STATEMENT: KW_BEGIN NT_DECLARATION_LIST_OPT NT_STATEMENT_LIST_OPT KW_END
+
+   59 NT_STATEMENT_LIST_OPT: %empty
+   60                      | NT_STATEMENT_LIST
+
+   61 NT_STATEMENT_LIST: NT_STATEMENT NT_STATEMENT_LIST
+   62                  | NT_STATEMENT
+
+   63 NT_EXPRESSION: NT_LITERAL_CONSTANT
+   64              | NT_VARIABLE_REFERENCE
+   65              | NT_FUNCTION_CALL
+   66              | NT_BINARY_OPERATION
+   67              | NT_UNARY_OPERATION
+   68              | LEFT_PAREN NT_EXPRESSION RIGHT_PAREN
+
+   69 NT_LITERAL_CONSTANT: NT_INTEGER_LITERAL
+   70                    | NT_REAL_LITERAL
+   71                    | NT_STRING_LITERAL
+   72                    | NT_BOOLEAN_LITERAL
+
+   73 NT_INTEGER_LITERAL: DECIMAL
+   74                   | OCTAL
+
+   75 NT_REAL_LITERAL: FLOAT
+   76                | SCIENTIFIC
+
+   77 NT_STRING_LITERAL: STRING
+
+   78 NT_BOOLEAN_LITERAL: KW_TRUE
+   79                   | KW_FALSE
+
+   80 NT_VARIABLE_REFERENCE: IDENTIFIER NT_BRACKET_EXPRESSION_LIST_OPT
+
+   81 NT_BRACKET_EXPRESSION_LIST_OPT: %empty
+   82                               | NT_BRACKET_EXPRESSION_LIST
+
+   83 NT_BRACKET_EXPRESSION_LIST: NT_BRACKET_EXPRESSION NT_BRACKET_EXPRESSION_LIST
+   84                           | NT_BRACKET_EXPRESSION
+
+   85 NT_BRACKET_EXPRESSION: LEFT_BRACKET NT_EXPRESSION RIGHT_BRACKET
+
+   86 NT_FUNCTION_CALL: IDENTIFIER LEFT_PAREN NT_EXPRESSION_LIST_OPT RIGHT_PAREN
+
+   87 NT_EXPRESSION_LIST_OPT: %empty
+   88                       | NT_EXPRESSION_LIST
+
+   89 NT_EXPRESSION_LIST: NT_EXPRESSION COMMA NT_EXPRESSION_LIST
+   90                   | NT_EXPRESSION
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION OR NT_EXPRESSION
+   92                    | NT_EXPRESSION AND NT_EXPRESSION
+   93                    | NT_EXPRESSION NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION MUL NT_EXPRESSION
+
+   99 NT_RELATIONAL_OPERATOR: LT
+  100                       | LE
+  101                       | NE
+  102                       | GE
+  103                       | GT
+  104                       | EQ
+
+  105 NT_UNARY_OPERATION: NOT NT_EXPRESSION
+  106                   | SUB NT_EXPRESSION
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    COMMA (258) 31 89
+    SEMICOLON (259) 1 15 19 24 25 26 27 28 29 30 49 50 51 54 57
+    COLON (260) 18 21 24 25 26 27 28 29 30
+    LEFT_PAREN (261) 12 68 86
+    RIGHT_PAREN (262) 12 68 86
+    LEFT_BRACKET (263) 85
+    RIGHT_BRACKET (264) 85
+    IDENTIFIER (265) 1 12 31 32 56 80 86
+    DECIMAL (266) 73
+    OCTAL (267) 74
+    FLOAT (268) 75
+    SCIENTIFIC (269) 76
+    KW_VAR (270) 24 25 26 27 28 29 30
+    KW_DEF (271)
+    KW_ARRAY (272) 39
+    KW_OF (273) 39
+    KW_BOOL (274) 38
+    KW_INT (275) 35
+    KW_REAL (276) 36
+    KW_STR (277) 37
+    KW_TRUE (278) 78
+    KW_FALSE (279) 79
+    KW_WHILE (280) 55
+    KW_DO (281) 55 56
+    KW_IF (282) 52 53
+    KW_THEN (283) 52 53
+    KW_ELSE (284) 52
+    KW_FOR (285) 56
+    KW_TO (286) 56
+    KW_BEGIN (287) 58
+    KW_END (288) 1 20 52 53 55 56 58
+    KW_PRINT (289) 50
+    KW_READ (290) 51
+    KW_RETURN (291) 57
+    CHAR (292)
+    STRING (293) 77
+    SPACE (294)
+    ASSIGNMENT (295) 49 56
+    OR (296) 91
+    AND (297) 92
+    NOT (298) 105
+    LT (299) 99
+    GT (300) 103
+    EQ (301) 104
+    LE (302) 100
+    GE (303) 102
+    NE (304) 101
+    ADD (305) 95
+    SUB (306) 25 27 94 106
+    MUL (307) 98
+    DIV (308) 96
+    MOD (309) 97
+    NEG (310)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (56)
+        on left: 0
+    NT_PROGRAM (57)
+        on left: 1
+        on right: 0
+    NT_DECLARATION_LIST_OPT (58)
+        on left: 2 3
+        on right: 1 58
+    NT_DECLARATION_LIST (59)
+        on left: 4 5
+        on right: 3 4
+    NT_FUNCTION_LIST_OPT (60)
+        on left: 6 7
+        on right: 1
+    NT_FUNCTION_LIST (61)
+        on left: 8 9
+        on right: 7 8
+    NT_FUNCTION (62)
+        on left: 10 11
+        on right: 8 9
+    NT_FUNCTION_HEADER (63)
+        on left: 12
+        on right: 19 20
+    NT_FORMAL_ARG_LIST_OPT (64)
+        on left: 13 14
+        on right: 12
+    NT_FORMAL_ARG_LIST (65)
+        on left: 15 16
+        on right: 14 15
+    NT_RETURN_TYPE (66)
+        on left: 17 18
+        on right: 12
+    NT_FUNCTION_DECLARATION (67)
+        on left: 19
+        on right: 10
+    NT_FUNCTION_DEFINITION (68)
+        on left: 20
+        on right: 11
+    NT_FORMAL_ARG (69)
+        on left: 21
+        on right: 15 16
+    NT_DECLARATION (70)
+        on left: 22 23
+        on right: 4 5
+    NT_VARIABLE_DECLARATION (71)
+        on left: 24
+        on right: 22
+    NT_CONSTANT_DECLARATION (72)
+        on left: 25 26 27 28 29 30
+        on right: 23
+    NT_IDENTIFIER_LIST (73)
+        on left: 31 32
+        on right: 21 24 25 26 27 28 29 30 31
+    NT_TYPE (74)
+        on left: 33 34
+        on right: 21 24 39
+    NT_SCALAR_TYPE (75)
+        on left: 35 36 37 38
+        on right: 18 33
+    NT_ARRAY_TYPE (76)
+        on left: 39
+        on right: 34
+    NT_STATEMENT (77)
+        on left: 40 41 42 43 44 45
+        on right: 61 62
+    NT_SIMPLE_STATEMENT (78)
+        on left: 46 47 48
+        on right: 40
+    NT_ASSIGNMENT (79)
+        on left: 49
+        on right: 46
+    NT_PRINT_STATEMENT (80)
+        on left: 50
+        on right: 47
+    NT_READ_STATEMENT (81)
+        on left: 51
+        on right: 48
+    NT_CONDITIONAL_STATEMENT (82)
+        on left: 52 53
+        on right: 41
+    NT_FUNCTION_CALL_STATEMENT (83)
+        on left: 54
+        on right: 42
+    NT_LOOP_STATEMENT (84)
+        on left: 55 56
+        on right: 43
+    NT_RETURN_STATEMENT (85)
+        on left: 57
+        on right: 44
+    NT_COMPOUND_STATEMENT (86)
+        on left: 58
+        on right: 1 20 45 52 53 55 56
+    NT_STATEMENT_LIST_OPT (87)
+        on left: 59 60
+        on right: 58
+    NT_STATEMENT_LIST (88)
+        on left: 61 62
+        on right: 60 61
+    NT_EXPRESSION (89)
+        on left: 63 64 65 66 67 68
+        on right: 49 50 51 52 53 55 57 68 85 89 90 91 92 93 94 95 96 97 98 105 106
+    NT_LITERAL_CONSTANT (90)
+        on left: 69 70 71 72
+        on right: 63
+    NT_INTEGER_LITERAL (91)
+        on left: 73 74
+        on right: 25 26 39 56 69
+    NT_REAL_LITERAL (92)
+        on left: 75 76
+        on right: 27 28 70
+    NT_STRING_LITERAL (93)
+        on left: 77
+        on right: 29 71
+    NT_BOOLEAN_LITERAL (94)
+        on left: 78 79
+        on right: 30 72
+    NT_VARIABLE_REFERENCE (95)
+        on left: 80
+        on right: 49 64
+    NT_BRACKET_EXPRESSION_LIST_OPT (96)
+        on left: 81 82
+        on right: 80
+    NT_BRACKET_EXPRESSION_LIST (97)
+        on left: 83 84
+        on right: 82 83
+    NT_BRACKET_EXPRESSION (98)
+        on left: 85
+        on right: 83 84
+    NT_FUNCTION_CALL (99)
+        on left: 86
+        on right: 54 65
+    NT_EXPRESSION_LIST_OPT (100)
+        on left: 87 88
+        on right: 86
+    NT_EXPRESSION_LIST (101)
+        on left: 89 90
+        on right: 88 89
+    NT_BINARY_OPERATION (102)
+        on left: 91 92 93 94 95 96 97 98
+        on right: 66
+    NT_RELATIONAL_OPERATOR (103)
+        on left: 99 100 101 102 103 104
+        on right: 93
+    NT_UNARY_OPERATION (104)
+        on left: 105 106
+        on right: 67
+
+
+State 0
+
+    0 $accept: . NT_PROGRAM $end
+
+    IDENTIFIER  shift, and go to state 1
+
+    NT_PROGRAM  go to state 2
+
+
+State 1
+
+    1 NT_PROGRAM: IDENTIFIER . SEMICOLON NT_DECLARATION_LIST_OPT NT_FUNCTION_LIST_OPT NT_COMPOUND_STATEMENT KW_END
+
+    SEMICOLON  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: NT_PROGRAM . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 NT_PROGRAM: IDENTIFIER SEMICOLON . NT_DECLARATION_LIST_OPT NT_FUNCTION_LIST_OPT NT_COMPOUND_STATEMENT KW_END
+
+    KW_VAR  shift, and go to state 5
+
+    $default  reduce using rule 2 (NT_DECLARATION_LIST_OPT)
+
+    NT_DECLARATION_LIST_OPT  go to state 6
+    NT_DECLARATION_LIST      go to state 7
+    NT_DECLARATION           go to state 8
+    NT_VARIABLE_DECLARATION  go to state 9
+    NT_CONSTANT_DECLARATION  go to state 10
+
+
+State 4
+
+    0 $accept: NT_PROGRAM $end .
+
+    $default  accept
+
+
+State 5
+
+   24 NT_VARIABLE_DECLARATION: KW_VAR . NT_IDENTIFIER_LIST COLON NT_TYPE SEMICOLON
+   25 NT_CONSTANT_DECLARATION: KW_VAR . NT_IDENTIFIER_LIST COLON SUB NT_INTEGER_LITERAL SEMICOLON
+   26                        | KW_VAR . NT_IDENTIFIER_LIST COLON NT_INTEGER_LITERAL SEMICOLON
+   27                        | KW_VAR . NT_IDENTIFIER_LIST COLON SUB NT_REAL_LITERAL SEMICOLON
+   28                        | KW_VAR . NT_IDENTIFIER_LIST COLON NT_REAL_LITERAL SEMICOLON
+   29                        | KW_VAR . NT_IDENTIFIER_LIST COLON NT_STRING_LITERAL SEMICOLON
+   30                        | KW_VAR . NT_IDENTIFIER_LIST COLON NT_BOOLEAN_LITERAL SEMICOLON
+
+    IDENTIFIER  shift, and go to state 11
+
+    NT_IDENTIFIER_LIST  go to state 12
+
+
+State 6
+
+    1 NT_PROGRAM: IDENTIFIER SEMICOLON NT_DECLARATION_LIST_OPT . NT_FUNCTION_LIST_OPT NT_COMPOUND_STATEMENT KW_END
+
+    IDENTIFIER  shift, and go to state 13
+
+    $default  reduce using rule 6 (NT_FUNCTION_LIST_OPT)
+
+    NT_FUNCTION_LIST_OPT     go to state 14
+    NT_FUNCTION_LIST         go to state 15
+    NT_FUNCTION              go to state 16
+    NT_FUNCTION_HEADER       go to state 17
+    NT_FUNCTION_DECLARATION  go to state 18
+    NT_FUNCTION_DEFINITION   go to state 19
+
+
+State 7
+
+    3 NT_DECLARATION_LIST_OPT: NT_DECLARATION_LIST .
+
+    $default  reduce using rule 3 (NT_DECLARATION_LIST_OPT)
+
+
+State 8
+
+    4 NT_DECLARATION_LIST: NT_DECLARATION . NT_DECLARATION_LIST
+    5                    | NT_DECLARATION .
+
+    KW_VAR  shift, and go to state 5
+
+    $default  reduce using rule 5 (NT_DECLARATION_LIST)
+
+    NT_DECLARATION_LIST      go to state 20
+    NT_DECLARATION           go to state 8
+    NT_VARIABLE_DECLARATION  go to state 9
+    NT_CONSTANT_DECLARATION  go to state 10
+
+
+State 9
+
+   22 NT_DECLARATION: NT_VARIABLE_DECLARATION .
+
+    $default  reduce using rule 22 (NT_DECLARATION)
+
+
+State 10
+
+   23 NT_DECLARATION: NT_CONSTANT_DECLARATION .
+
+    $default  reduce using rule 23 (NT_DECLARATION)
+
+
+State 11
+
+   31 NT_IDENTIFIER_LIST: IDENTIFIER . COMMA NT_IDENTIFIER_LIST
+   32                   | IDENTIFIER .
+
+    COMMA  shift, and go to state 21
+
+    $default  reduce using rule 32 (NT_IDENTIFIER_LIST)
+
+
+State 12
+
+   24 NT_VARIABLE_DECLARATION: KW_VAR NT_IDENTIFIER_LIST . COLON NT_TYPE SEMICOLON
+   25 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST . COLON SUB NT_INTEGER_LITERAL SEMICOLON
+   26                        | KW_VAR NT_IDENTIFIER_LIST . COLON NT_INTEGER_LITERAL SEMICOLON
+   27                        | KW_VAR NT_IDENTIFIER_LIST . COLON SUB NT_REAL_LITERAL SEMICOLON
+   28                        | KW_VAR NT_IDENTIFIER_LIST . COLON NT_REAL_LITERAL SEMICOLON
+   29                        | KW_VAR NT_IDENTIFIER_LIST . COLON NT_STRING_LITERAL SEMICOLON
+   30                        | KW_VAR NT_IDENTIFIER_LIST . COLON NT_BOOLEAN_LITERAL SEMICOLON
+
+    COLON  shift, and go to state 22
+
+
+State 13
+
+   12 NT_FUNCTION_HEADER: IDENTIFIER . LEFT_PAREN NT_FORMAL_ARG_LIST_OPT RIGHT_PAREN NT_RETURN_TYPE
+
+    LEFT_PAREN  shift, and go to state 23
+
+
+State 14
+
+    1 NT_PROGRAM: IDENTIFIER SEMICOLON NT_DECLARATION_LIST_OPT NT_FUNCTION_LIST_OPT . NT_COMPOUND_STATEMENT KW_END
+
+    KW_BEGIN  shift, and go to state 24
+
+    NT_COMPOUND_STATEMENT  go to state 25
+
+
+State 15
+
+    7 NT_FUNCTION_LIST_OPT: NT_FUNCTION_LIST .
+
+    $default  reduce using rule 7 (NT_FUNCTION_LIST_OPT)
+
+
+State 16
+
+    8 NT_FUNCTION_LIST: NT_FUNCTION . NT_FUNCTION_LIST
+    9                 | NT_FUNCTION .
+
+    IDENTIFIER  shift, and go to state 13
+
+    $default  reduce using rule 9 (NT_FUNCTION_LIST)
+
+    NT_FUNCTION_LIST         go to state 26
+    NT_FUNCTION              go to state 16
+    NT_FUNCTION_HEADER       go to state 17
+    NT_FUNCTION_DECLARATION  go to state 18
+    NT_FUNCTION_DEFINITION   go to state 19
+
+
+State 17
+
+   19 NT_FUNCTION_DECLARATION: NT_FUNCTION_HEADER . SEMICOLON
+   20 NT_FUNCTION_DEFINITION: NT_FUNCTION_HEADER . NT_COMPOUND_STATEMENT KW_END
+
+    SEMICOLON  shift, and go to state 27
+    KW_BEGIN   shift, and go to state 24
+
+    NT_COMPOUND_STATEMENT  go to state 28
+
+
+State 18
+
+   10 NT_FUNCTION: NT_FUNCTION_DECLARATION .
+
+    $default  reduce using rule 10 (NT_FUNCTION)
+
+
+State 19
+
+   11 NT_FUNCTION: NT_FUNCTION_DEFINITION .
+
+    $default  reduce using rule 11 (NT_FUNCTION)
+
+
+State 20
+
+    4 NT_DECLARATION_LIST: NT_DECLARATION NT_DECLARATION_LIST .
+
+    $default  reduce using rule 4 (NT_DECLARATION_LIST)
+
+
+State 21
+
+   31 NT_IDENTIFIER_LIST: IDENTIFIER COMMA . NT_IDENTIFIER_LIST
+
+    IDENTIFIER  shift, and go to state 11
+
+    NT_IDENTIFIER_LIST  go to state 29
+
+
+State 22
+
+   24 NT_VARIABLE_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON . NT_TYPE SEMICOLON
+   25 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON . SUB NT_INTEGER_LITERAL SEMICOLON
+   26                        | KW_VAR NT_IDENTIFIER_LIST COLON . NT_INTEGER_LITERAL SEMICOLON
+   27                        | KW_VAR NT_IDENTIFIER_LIST COLON . SUB NT_REAL_LITERAL SEMICOLON
+   28                        | KW_VAR NT_IDENTIFIER_LIST COLON . NT_REAL_LITERAL SEMICOLON
+   29                        | KW_VAR NT_IDENTIFIER_LIST COLON . NT_STRING_LITERAL SEMICOLON
+   30                        | KW_VAR NT_IDENTIFIER_LIST COLON . NT_BOOLEAN_LITERAL SEMICOLON
+
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_ARRAY    shift, and go to state 34
+    KW_BOOL     shift, and go to state 35
+    KW_INT      shift, and go to state 36
+    KW_REAL     shift, and go to state 37
+    KW_STR      shift, and go to state 38
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    SUB         shift, and go to state 42
+
+    NT_TYPE             go to state 43
+    NT_SCALAR_TYPE      go to state 44
+    NT_ARRAY_TYPE       go to state 45
+    NT_INTEGER_LITERAL  go to state 46
+    NT_REAL_LITERAL     go to state 47
+    NT_STRING_LITERAL   go to state 48
+    NT_BOOLEAN_LITERAL  go to state 49
+
+
+State 23
+
+   12 NT_FUNCTION_HEADER: IDENTIFIER LEFT_PAREN . NT_FORMAL_ARG_LIST_OPT RIGHT_PAREN NT_RETURN_TYPE
+
+    IDENTIFIER  shift, and go to state 11
+
+    $default  reduce using rule 13 (NT_FORMAL_ARG_LIST_OPT)
+
+    NT_FORMAL_ARG_LIST_OPT  go to state 50
+    NT_FORMAL_ARG_LIST      go to state 51
+    NT_FORMAL_ARG           go to state 52
+    NT_IDENTIFIER_LIST      go to state 53
+
+
+State 24
+
+   58 NT_COMPOUND_STATEMENT: KW_BEGIN . NT_DECLARATION_LIST_OPT NT_STATEMENT_LIST_OPT KW_END
+
+    KW_VAR  shift, and go to state 5
+
+    $default  reduce using rule 2 (NT_DECLARATION_LIST_OPT)
+
+    NT_DECLARATION_LIST_OPT  go to state 54
+    NT_DECLARATION_LIST      go to state 7
+    NT_DECLARATION           go to state 8
+    NT_VARIABLE_DECLARATION  go to state 9
+    NT_CONSTANT_DECLARATION  go to state 10
+
+
+State 25
+
+    1 NT_PROGRAM: IDENTIFIER SEMICOLON NT_DECLARATION_LIST_OPT NT_FUNCTION_LIST_OPT NT_COMPOUND_STATEMENT . KW_END
+
+    KW_END  shift, and go to state 55
+
+
+State 26
+
+    8 NT_FUNCTION_LIST: NT_FUNCTION NT_FUNCTION_LIST .
+
+    $default  reduce using rule 8 (NT_FUNCTION_LIST)
+
+
+State 27
+
+   19 NT_FUNCTION_DECLARATION: NT_FUNCTION_HEADER SEMICOLON .
+
+    $default  reduce using rule 19 (NT_FUNCTION_DECLARATION)
+
+
+State 28
+
+   20 NT_FUNCTION_DEFINITION: NT_FUNCTION_HEADER NT_COMPOUND_STATEMENT . KW_END
+
+    KW_END  shift, and go to state 56
+
+
+State 29
+
+   31 NT_IDENTIFIER_LIST: IDENTIFIER COMMA NT_IDENTIFIER_LIST .
+
+    $default  reduce using rule 31 (NT_IDENTIFIER_LIST)
+
+
+State 30
+
+   73 NT_INTEGER_LITERAL: DECIMAL .
+
+    $default  reduce using rule 73 (NT_INTEGER_LITERAL)
+
+
+State 31
+
+   74 NT_INTEGER_LITERAL: OCTAL .
+
+    $default  reduce using rule 74 (NT_INTEGER_LITERAL)
+
+
+State 32
+
+   75 NT_REAL_LITERAL: FLOAT .
+
+    $default  reduce using rule 75 (NT_REAL_LITERAL)
+
+
+State 33
+
+   76 NT_REAL_LITERAL: SCIENTIFIC .
+
+    $default  reduce using rule 76 (NT_REAL_LITERAL)
+
+
+State 34
+
+   39 NT_ARRAY_TYPE: KW_ARRAY . NT_INTEGER_LITERAL KW_OF NT_TYPE
+
+    DECIMAL  shift, and go to state 30
+    OCTAL    shift, and go to state 31
+
+    NT_INTEGER_LITERAL  go to state 57
+
+
+State 35
+
+   38 NT_SCALAR_TYPE: KW_BOOL .
+
+    $default  reduce using rule 38 (NT_SCALAR_TYPE)
+
+
+State 36
+
+   35 NT_SCALAR_TYPE: KW_INT .
+
+    $default  reduce using rule 35 (NT_SCALAR_TYPE)
+
+
+State 37
+
+   36 NT_SCALAR_TYPE: KW_REAL .
+
+    $default  reduce using rule 36 (NT_SCALAR_TYPE)
+
+
+State 38
+
+   37 NT_SCALAR_TYPE: KW_STR .
+
+    $default  reduce using rule 37 (NT_SCALAR_TYPE)
+
+
+State 39
+
+   78 NT_BOOLEAN_LITERAL: KW_TRUE .
+
+    $default  reduce using rule 78 (NT_BOOLEAN_LITERAL)
+
+
+State 40
+
+   79 NT_BOOLEAN_LITERAL: KW_FALSE .
+
+    $default  reduce using rule 79 (NT_BOOLEAN_LITERAL)
+
+
+State 41
+
+   77 NT_STRING_LITERAL: STRING .
+
+    $default  reduce using rule 77 (NT_STRING_LITERAL)
+
+
+State 42
+
+   25 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON SUB . NT_INTEGER_LITERAL SEMICOLON
+   27                        | KW_VAR NT_IDENTIFIER_LIST COLON SUB . NT_REAL_LITERAL SEMICOLON
+
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+
+    NT_INTEGER_LITERAL  go to state 58
+    NT_REAL_LITERAL     go to state 59
+
+
+State 43
+
+   24 NT_VARIABLE_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_TYPE . SEMICOLON
+
+    SEMICOLON  shift, and go to state 60
+
+
+State 44
+
+   33 NT_TYPE: NT_SCALAR_TYPE .
+
+    $default  reduce using rule 33 (NT_TYPE)
+
+
+State 45
+
+   34 NT_TYPE: NT_ARRAY_TYPE .
+
+    $default  reduce using rule 34 (NT_TYPE)
+
+
+State 46
+
+   26 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_INTEGER_LITERAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 61
+
+
+State 47
+
+   28 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_REAL_LITERAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 62
+
+
+State 48
+
+   29 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_STRING_LITERAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 63
+
+
+State 49
+
+   30 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_BOOLEAN_LITERAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 64
+
+
+State 50
+
+   12 NT_FUNCTION_HEADER: IDENTIFIER LEFT_PAREN NT_FORMAL_ARG_LIST_OPT . RIGHT_PAREN NT_RETURN_TYPE
+
+    RIGHT_PAREN  shift, and go to state 65
+
+
+State 51
+
+   14 NT_FORMAL_ARG_LIST_OPT: NT_FORMAL_ARG_LIST .
+
+    $default  reduce using rule 14 (NT_FORMAL_ARG_LIST_OPT)
+
+
+State 52
+
+   15 NT_FORMAL_ARG_LIST: NT_FORMAL_ARG . SEMICOLON NT_FORMAL_ARG_LIST
+   16                   | NT_FORMAL_ARG .
+
+    SEMICOLON  shift, and go to state 66
+
+    $default  reduce using rule 16 (NT_FORMAL_ARG_LIST)
+
+
+State 53
+
+   21 NT_FORMAL_ARG: NT_IDENTIFIER_LIST . COLON NT_TYPE
+
+    COLON  shift, and go to state 67
+
+
+State 54
+
+   58 NT_COMPOUND_STATEMENT: KW_BEGIN NT_DECLARATION_LIST_OPT . NT_STATEMENT_LIST_OPT KW_END
+
+    IDENTIFIER  shift, and go to state 68
+    KW_WHILE    shift, and go to state 69
+    KW_IF       shift, and go to state 70
+    KW_FOR      shift, and go to state 71
+    KW_BEGIN    shift, and go to state 24
+    KW_PRINT    shift, and go to state 72
+    KW_READ     shift, and go to state 73
+    KW_RETURN   shift, and go to state 74
+
+    $default  reduce using rule 59 (NT_STATEMENT_LIST_OPT)
+
+    NT_STATEMENT                go to state 75
+    NT_SIMPLE_STATEMENT         go to state 76
+    NT_ASSIGNMENT               go to state 77
+    NT_PRINT_STATEMENT          go to state 78
+    NT_READ_STATEMENT           go to state 79
+    NT_CONDITIONAL_STATEMENT    go to state 80
+    NT_FUNCTION_CALL_STATEMENT  go to state 81
+    NT_LOOP_STATEMENT           go to state 82
+    NT_RETURN_STATEMENT         go to state 83
+    NT_COMPOUND_STATEMENT       go to state 84
+    NT_STATEMENT_LIST_OPT       go to state 85
+    NT_STATEMENT_LIST           go to state 86
+    NT_VARIABLE_REFERENCE       go to state 87
+    NT_FUNCTION_CALL            go to state 88
+
+
+State 55
+
+    1 NT_PROGRAM: IDENTIFIER SEMICOLON NT_DECLARATION_LIST_OPT NT_FUNCTION_LIST_OPT NT_COMPOUND_STATEMENT KW_END .
+
+    $default  reduce using rule 1 (NT_PROGRAM)
+
+
+State 56
+
+   20 NT_FUNCTION_DEFINITION: NT_FUNCTION_HEADER NT_COMPOUND_STATEMENT KW_END .
+
+    $default  reduce using rule 20 (NT_FUNCTION_DEFINITION)
+
+
+State 57
+
+   39 NT_ARRAY_TYPE: KW_ARRAY NT_INTEGER_LITERAL . KW_OF NT_TYPE
+
+    KW_OF  shift, and go to state 89
+
+
+State 58
+
+   25 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON SUB NT_INTEGER_LITERAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 90
+
+
+State 59
+
+   27 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON SUB NT_REAL_LITERAL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 91
+
+
+State 60
+
+   24 NT_VARIABLE_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_TYPE SEMICOLON .
+
+    $default  reduce using rule 24 (NT_VARIABLE_DECLARATION)
+
+
+State 61
+
+   26 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_INTEGER_LITERAL SEMICOLON .
+
+    $default  reduce using rule 26 (NT_CONSTANT_DECLARATION)
+
+
+State 62
+
+   28 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_REAL_LITERAL SEMICOLON .
+
+    $default  reduce using rule 28 (NT_CONSTANT_DECLARATION)
+
+
+State 63
+
+   29 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_STRING_LITERAL SEMICOLON .
+
+    $default  reduce using rule 29 (NT_CONSTANT_DECLARATION)
+
+
+State 64
+
+   30 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON NT_BOOLEAN_LITERAL SEMICOLON .
+
+    $default  reduce using rule 30 (NT_CONSTANT_DECLARATION)
+
+
+State 65
+
+   12 NT_FUNCTION_HEADER: IDENTIFIER LEFT_PAREN NT_FORMAL_ARG_LIST_OPT RIGHT_PAREN . NT_RETURN_TYPE
+
+    COLON  shift, and go to state 92
+
+    $default  reduce using rule 17 (NT_RETURN_TYPE)
+
+    NT_RETURN_TYPE  go to state 93
+
+
+State 66
+
+   15 NT_FORMAL_ARG_LIST: NT_FORMAL_ARG SEMICOLON . NT_FORMAL_ARG_LIST
+
+    IDENTIFIER  shift, and go to state 11
+
+    NT_FORMAL_ARG_LIST  go to state 94
+    NT_FORMAL_ARG       go to state 52
+    NT_IDENTIFIER_LIST  go to state 53
+
+
+State 67
+
+   21 NT_FORMAL_ARG: NT_IDENTIFIER_LIST COLON . NT_TYPE
+
+    KW_ARRAY  shift, and go to state 34
+    KW_BOOL   shift, and go to state 35
+    KW_INT    shift, and go to state 36
+    KW_REAL   shift, and go to state 37
+    KW_STR    shift, and go to state 38
+
+    NT_TYPE         go to state 95
+    NT_SCALAR_TYPE  go to state 44
+    NT_ARRAY_TYPE   go to state 45
+
+
+State 68
+
+   80 NT_VARIABLE_REFERENCE: IDENTIFIER . NT_BRACKET_EXPRESSION_LIST_OPT
+   86 NT_FUNCTION_CALL: IDENTIFIER . LEFT_PAREN NT_EXPRESSION_LIST_OPT RIGHT_PAREN
+
+    LEFT_PAREN    shift, and go to state 96
+    LEFT_BRACKET  shift, and go to state 97
+
+    $default  reduce using rule 81 (NT_BRACKET_EXPRESSION_LIST_OPT)
+
+    NT_BRACKET_EXPRESSION_LIST_OPT  go to state 98
+    NT_BRACKET_EXPRESSION_LIST      go to state 99
+    NT_BRACKET_EXPRESSION           go to state 100
+
+
+State 69
+
+   55 NT_LOOP_STATEMENT: KW_WHILE . NT_EXPRESSION KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 104
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 70
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF . NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_ELSE NT_COMPOUND_STATEMENT KW_END KW_IF
+   53                         | KW_IF . NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_END KW_IF
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 114
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 71
+
+   56 NT_LOOP_STATEMENT: KW_FOR . IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    IDENTIFIER  shift, and go to state 115
+
+
+State 72
+
+   50 NT_PRINT_STATEMENT: KW_PRINT . NT_EXPRESSION SEMICOLON
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 116
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 73
+
+   51 NT_READ_STATEMENT: KW_READ . NT_EXPRESSION SEMICOLON
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 117
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 74
+
+   57 NT_RETURN_STATEMENT: KW_RETURN . NT_EXPRESSION SEMICOLON
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 118
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 75
+
+   61 NT_STATEMENT_LIST: NT_STATEMENT . NT_STATEMENT_LIST
+   62                  | NT_STATEMENT .
+
+    IDENTIFIER  shift, and go to state 68
+    KW_WHILE    shift, and go to state 69
+    KW_IF       shift, and go to state 70
+    KW_FOR      shift, and go to state 71
+    KW_BEGIN    shift, and go to state 24
+    KW_PRINT    shift, and go to state 72
+    KW_READ     shift, and go to state 73
+    KW_RETURN   shift, and go to state 74
+
+    $default  reduce using rule 62 (NT_STATEMENT_LIST)
+
+    NT_STATEMENT                go to state 75
+    NT_SIMPLE_STATEMENT         go to state 76
+    NT_ASSIGNMENT               go to state 77
+    NT_PRINT_STATEMENT          go to state 78
+    NT_READ_STATEMENT           go to state 79
+    NT_CONDITIONAL_STATEMENT    go to state 80
+    NT_FUNCTION_CALL_STATEMENT  go to state 81
+    NT_LOOP_STATEMENT           go to state 82
+    NT_RETURN_STATEMENT         go to state 83
+    NT_COMPOUND_STATEMENT       go to state 84
+    NT_STATEMENT_LIST           go to state 119
+    NT_VARIABLE_REFERENCE       go to state 87
+    NT_FUNCTION_CALL            go to state 88
+
+
+State 76
+
+   40 NT_STATEMENT: NT_SIMPLE_STATEMENT .
+
+    $default  reduce using rule 40 (NT_STATEMENT)
+
+
+State 77
+
+   46 NT_SIMPLE_STATEMENT: NT_ASSIGNMENT .
+
+    $default  reduce using rule 46 (NT_SIMPLE_STATEMENT)
+
+
+State 78
+
+   47 NT_SIMPLE_STATEMENT: NT_PRINT_STATEMENT .
+
+    $default  reduce using rule 47 (NT_SIMPLE_STATEMENT)
+
+
+State 79
+
+   48 NT_SIMPLE_STATEMENT: NT_READ_STATEMENT .
+
+    $default  reduce using rule 48 (NT_SIMPLE_STATEMENT)
+
+
+State 80
+
+   41 NT_STATEMENT: NT_CONDITIONAL_STATEMENT .
+
+    $default  reduce using rule 41 (NT_STATEMENT)
+
+
+State 81
+
+   42 NT_STATEMENT: NT_FUNCTION_CALL_STATEMENT .
+
+    $default  reduce using rule 42 (NT_STATEMENT)
+
+
+State 82
+
+   43 NT_STATEMENT: NT_LOOP_STATEMENT .
+
+    $default  reduce using rule 43 (NT_STATEMENT)
+
+
+State 83
+
+   44 NT_STATEMENT: NT_RETURN_STATEMENT .
+
+    $default  reduce using rule 44 (NT_STATEMENT)
+
+
+State 84
+
+   45 NT_STATEMENT: NT_COMPOUND_STATEMENT .
+
+    $default  reduce using rule 45 (NT_STATEMENT)
+
+
+State 85
+
+   58 NT_COMPOUND_STATEMENT: KW_BEGIN NT_DECLARATION_LIST_OPT NT_STATEMENT_LIST_OPT . KW_END
+
+    KW_END  shift, and go to state 120
+
+
+State 86
+
+   60 NT_STATEMENT_LIST_OPT: NT_STATEMENT_LIST .
+
+    $default  reduce using rule 60 (NT_STATEMENT_LIST_OPT)
+
+
+State 87
+
+   49 NT_ASSIGNMENT: NT_VARIABLE_REFERENCE . ASSIGNMENT NT_EXPRESSION SEMICOLON
+
+    ASSIGNMENT  shift, and go to state 121
+
+
+State 88
+
+   54 NT_FUNCTION_CALL_STATEMENT: NT_FUNCTION_CALL . SEMICOLON
+
+    SEMICOLON  shift, and go to state 122
+
+
+State 89
+
+   39 NT_ARRAY_TYPE: KW_ARRAY NT_INTEGER_LITERAL KW_OF . NT_TYPE
+
+    KW_ARRAY  shift, and go to state 34
+    KW_BOOL   shift, and go to state 35
+    KW_INT    shift, and go to state 36
+    KW_REAL   shift, and go to state 37
+    KW_STR    shift, and go to state 38
+
+    NT_TYPE         go to state 123
+    NT_SCALAR_TYPE  go to state 44
+    NT_ARRAY_TYPE   go to state 45
+
+
+State 90
+
+   25 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON SUB NT_INTEGER_LITERAL SEMICOLON .
+
+    $default  reduce using rule 25 (NT_CONSTANT_DECLARATION)
+
+
+State 91
+
+   27 NT_CONSTANT_DECLARATION: KW_VAR NT_IDENTIFIER_LIST COLON SUB NT_REAL_LITERAL SEMICOLON .
+
+    $default  reduce using rule 27 (NT_CONSTANT_DECLARATION)
+
+
+State 92
+
+   18 NT_RETURN_TYPE: COLON . NT_SCALAR_TYPE
+
+    KW_BOOL  shift, and go to state 35
+    KW_INT   shift, and go to state 36
+    KW_REAL  shift, and go to state 37
+    KW_STR   shift, and go to state 38
+
+    NT_SCALAR_TYPE  go to state 124
+
+
+State 93
+
+   12 NT_FUNCTION_HEADER: IDENTIFIER LEFT_PAREN NT_FORMAL_ARG_LIST_OPT RIGHT_PAREN NT_RETURN_TYPE .
+
+    $default  reduce using rule 12 (NT_FUNCTION_HEADER)
+
+
+State 94
+
+   15 NT_FORMAL_ARG_LIST: NT_FORMAL_ARG SEMICOLON NT_FORMAL_ARG_LIST .
+
+    $default  reduce using rule 15 (NT_FORMAL_ARG_LIST)
+
+
+State 95
+
+   21 NT_FORMAL_ARG: NT_IDENTIFIER_LIST COLON NT_TYPE .
+
+    $default  reduce using rule 21 (NT_FORMAL_ARG)
+
+
+State 96
+
+   86 NT_FUNCTION_CALL: IDENTIFIER LEFT_PAREN . NT_EXPRESSION_LIST_OPT RIGHT_PAREN
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    $default  reduce using rule 87 (NT_EXPRESSION_LIST_OPT)
+
+    NT_EXPRESSION           go to state 125
+    NT_LITERAL_CONSTANT     go to state 105
+    NT_INTEGER_LITERAL      go to state 106
+    NT_REAL_LITERAL         go to state 107
+    NT_STRING_LITERAL       go to state 108
+    NT_BOOLEAN_LITERAL      go to state 109
+    NT_VARIABLE_REFERENCE   go to state 110
+    NT_FUNCTION_CALL        go to state 111
+    NT_EXPRESSION_LIST_OPT  go to state 126
+    NT_EXPRESSION_LIST      go to state 127
+    NT_BINARY_OPERATION     go to state 112
+    NT_UNARY_OPERATION      go to state 113
+
+
+State 97
+
+   85 NT_BRACKET_EXPRESSION: LEFT_BRACKET . NT_EXPRESSION RIGHT_BRACKET
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 128
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 98
+
+   80 NT_VARIABLE_REFERENCE: IDENTIFIER NT_BRACKET_EXPRESSION_LIST_OPT .
+
+    $default  reduce using rule 80 (NT_VARIABLE_REFERENCE)
+
+
+State 99
+
+   82 NT_BRACKET_EXPRESSION_LIST_OPT: NT_BRACKET_EXPRESSION_LIST .
+
+    $default  reduce using rule 82 (NT_BRACKET_EXPRESSION_LIST_OPT)
+
+
+State 100
+
+   83 NT_BRACKET_EXPRESSION_LIST: NT_BRACKET_EXPRESSION . NT_BRACKET_EXPRESSION_LIST
+   84                           | NT_BRACKET_EXPRESSION .
+
+    LEFT_BRACKET  shift, and go to state 97
+
+    $default  reduce using rule 84 (NT_BRACKET_EXPRESSION_LIST)
+
+    NT_BRACKET_EXPRESSION_LIST  go to state 129
+    NT_BRACKET_EXPRESSION       go to state 100
+
+
+State 101
+
+   68 NT_EXPRESSION: LEFT_PAREN . NT_EXPRESSION RIGHT_PAREN
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 130
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 102
+
+  105 NT_UNARY_OPERATION: NOT . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 131
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 103
+
+  106 NT_UNARY_OPERATION: SUB . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 132
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 104
+
+   55 NT_LOOP_STATEMENT: KW_WHILE NT_EXPRESSION . KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    KW_DO  shift, and go to state 133
+    OR     shift, and go to state 134
+    AND    shift, and go to state 135
+    LT     shift, and go to state 136
+    GT     shift, and go to state 137
+    EQ     shift, and go to state 138
+    LE     shift, and go to state 139
+    GE     shift, and go to state 140
+    NE     shift, and go to state 141
+    ADD    shift, and go to state 142
+    SUB    shift, and go to state 143
+    MUL    shift, and go to state 144
+    DIV    shift, and go to state 145
+    MOD    shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 105
+
+   63 NT_EXPRESSION: NT_LITERAL_CONSTANT .
+
+    $default  reduce using rule 63 (NT_EXPRESSION)
+
+
+State 106
+
+   69 NT_LITERAL_CONSTANT: NT_INTEGER_LITERAL .
+
+    $default  reduce using rule 69 (NT_LITERAL_CONSTANT)
+
+
+State 107
+
+   70 NT_LITERAL_CONSTANT: NT_REAL_LITERAL .
+
+    $default  reduce using rule 70 (NT_LITERAL_CONSTANT)
+
+
+State 108
+
+   71 NT_LITERAL_CONSTANT: NT_STRING_LITERAL .
+
+    $default  reduce using rule 71 (NT_LITERAL_CONSTANT)
+
+
+State 109
+
+   72 NT_LITERAL_CONSTANT: NT_BOOLEAN_LITERAL .
+
+    $default  reduce using rule 72 (NT_LITERAL_CONSTANT)
+
+
+State 110
+
+   64 NT_EXPRESSION: NT_VARIABLE_REFERENCE .
+
+    $default  reduce using rule 64 (NT_EXPRESSION)
+
+
+State 111
+
+   65 NT_EXPRESSION: NT_FUNCTION_CALL .
+
+    $default  reduce using rule 65 (NT_EXPRESSION)
+
+
+State 112
+
+   66 NT_EXPRESSION: NT_BINARY_OPERATION .
+
+    $default  reduce using rule 66 (NT_EXPRESSION)
+
+
+State 113
+
+   67 NT_EXPRESSION: NT_UNARY_OPERATION .
+
+    $default  reduce using rule 67 (NT_EXPRESSION)
+
+
+State 114
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION . KW_THEN NT_COMPOUND_STATEMENT KW_ELSE NT_COMPOUND_STATEMENT KW_END KW_IF
+   53                         | KW_IF NT_EXPRESSION . KW_THEN NT_COMPOUND_STATEMENT KW_END KW_IF
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    KW_THEN  shift, and go to state 148
+    OR       shift, and go to state 134
+    AND      shift, and go to state 135
+    LT       shift, and go to state 136
+    GT       shift, and go to state 137
+    EQ       shift, and go to state 138
+    LE       shift, and go to state 139
+    GE       shift, and go to state 140
+    NE       shift, and go to state 141
+    ADD      shift, and go to state 142
+    SUB      shift, and go to state 143
+    MUL      shift, and go to state 144
+    DIV      shift, and go to state 145
+    MOD      shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 115
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER . ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    ASSIGNMENT  shift, and go to state 149
+
+
+State 116
+
+   50 NT_PRINT_STATEMENT: KW_PRINT NT_EXPRESSION . SEMICOLON
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    SEMICOLON  shift, and go to state 150
+    OR         shift, and go to state 134
+    AND        shift, and go to state 135
+    LT         shift, and go to state 136
+    GT         shift, and go to state 137
+    EQ         shift, and go to state 138
+    LE         shift, and go to state 139
+    GE         shift, and go to state 140
+    NE         shift, and go to state 141
+    ADD        shift, and go to state 142
+    SUB        shift, and go to state 143
+    MUL        shift, and go to state 144
+    DIV        shift, and go to state 145
+    MOD        shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 117
+
+   51 NT_READ_STATEMENT: KW_READ NT_EXPRESSION . SEMICOLON
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    SEMICOLON  shift, and go to state 151
+    OR         shift, and go to state 134
+    AND        shift, and go to state 135
+    LT         shift, and go to state 136
+    GT         shift, and go to state 137
+    EQ         shift, and go to state 138
+    LE         shift, and go to state 139
+    GE         shift, and go to state 140
+    NE         shift, and go to state 141
+    ADD        shift, and go to state 142
+    SUB        shift, and go to state 143
+    MUL        shift, and go to state 144
+    DIV        shift, and go to state 145
+    MOD        shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 118
+
+   57 NT_RETURN_STATEMENT: KW_RETURN NT_EXPRESSION . SEMICOLON
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    SEMICOLON  shift, and go to state 152
+    OR         shift, and go to state 134
+    AND        shift, and go to state 135
+    LT         shift, and go to state 136
+    GT         shift, and go to state 137
+    EQ         shift, and go to state 138
+    LE         shift, and go to state 139
+    GE         shift, and go to state 140
+    NE         shift, and go to state 141
+    ADD        shift, and go to state 142
+    SUB        shift, and go to state 143
+    MUL        shift, and go to state 144
+    DIV        shift, and go to state 145
+    MOD        shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 119
+
+   61 NT_STATEMENT_LIST: NT_STATEMENT NT_STATEMENT_LIST .
+
+    $default  reduce using rule 61 (NT_STATEMENT_LIST)
+
+
+State 120
+
+   58 NT_COMPOUND_STATEMENT: KW_BEGIN NT_DECLARATION_LIST_OPT NT_STATEMENT_LIST_OPT KW_END .
+
+    $default  reduce using rule 58 (NT_COMPOUND_STATEMENT)
+
+
+State 121
+
+   49 NT_ASSIGNMENT: NT_VARIABLE_REFERENCE ASSIGNMENT . NT_EXPRESSION SEMICOLON
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 153
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 122
+
+   54 NT_FUNCTION_CALL_STATEMENT: NT_FUNCTION_CALL SEMICOLON .
+
+    $default  reduce using rule 54 (NT_FUNCTION_CALL_STATEMENT)
+
+
+State 123
+
+   39 NT_ARRAY_TYPE: KW_ARRAY NT_INTEGER_LITERAL KW_OF NT_TYPE .
+
+    $default  reduce using rule 39 (NT_ARRAY_TYPE)
+
+
+State 124
+
+   18 NT_RETURN_TYPE: COLON NT_SCALAR_TYPE .
+
+    $default  reduce using rule 18 (NT_RETURN_TYPE)
+
+
+State 125
+
+   89 NT_EXPRESSION_LIST: NT_EXPRESSION . COMMA NT_EXPRESSION_LIST
+   90                   | NT_EXPRESSION .
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    COMMA  shift, and go to state 154
+    OR     shift, and go to state 134
+    AND    shift, and go to state 135
+    LT     shift, and go to state 136
+    GT     shift, and go to state 137
+    EQ     shift, and go to state 138
+    LE     shift, and go to state 139
+    GE     shift, and go to state 140
+    NE     shift, and go to state 141
+    ADD    shift, and go to state 142
+    SUB    shift, and go to state 143
+    MUL    shift, and go to state 144
+    DIV    shift, and go to state 145
+    MOD    shift, and go to state 146
+
+    $default  reduce using rule 90 (NT_EXPRESSION_LIST)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 126
+
+   86 NT_FUNCTION_CALL: IDENTIFIER LEFT_PAREN NT_EXPRESSION_LIST_OPT . RIGHT_PAREN
+
+    RIGHT_PAREN  shift, and go to state 155
+
+
+State 127
+
+   88 NT_EXPRESSION_LIST_OPT: NT_EXPRESSION_LIST .
+
+    $default  reduce using rule 88 (NT_EXPRESSION_LIST_OPT)
+
+
+State 128
+
+   85 NT_BRACKET_EXPRESSION: LEFT_BRACKET NT_EXPRESSION . RIGHT_BRACKET
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    RIGHT_BRACKET  shift, and go to state 156
+    OR             shift, and go to state 134
+    AND            shift, and go to state 135
+    LT             shift, and go to state 136
+    GT             shift, and go to state 137
+    EQ             shift, and go to state 138
+    LE             shift, and go to state 139
+    GE             shift, and go to state 140
+    NE             shift, and go to state 141
+    ADD            shift, and go to state 142
+    SUB            shift, and go to state 143
+    MUL            shift, and go to state 144
+    DIV            shift, and go to state 145
+    MOD            shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 129
+
+   83 NT_BRACKET_EXPRESSION_LIST: NT_BRACKET_EXPRESSION NT_BRACKET_EXPRESSION_LIST .
+
+    $default  reduce using rule 83 (NT_BRACKET_EXPRESSION_LIST)
+
+
+State 130
+
+   68 NT_EXPRESSION: LEFT_PAREN NT_EXPRESSION . RIGHT_PAREN
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    RIGHT_PAREN  shift, and go to state 157
+    OR           shift, and go to state 134
+    AND          shift, and go to state 135
+    LT           shift, and go to state 136
+    GT           shift, and go to state 137
+    EQ           shift, and go to state 138
+    LE           shift, and go to state 139
+    GE           shift, and go to state 140
+    NE           shift, and go to state 141
+    ADD          shift, and go to state 142
+    SUB          shift, and go to state 143
+    MUL          shift, and go to state 144
+    DIV          shift, and go to state 145
+    MOD          shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 131
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+  105 NT_UNARY_OPERATION: NOT NT_EXPRESSION .
+
+    LT   shift, and go to state 136
+    GT   shift, and go to state 137
+    EQ   shift, and go to state 138
+    LE   shift, and go to state 139
+    GE   shift, and go to state 140
+    NE   shift, and go to state 141
+    ADD  shift, and go to state 142
+    SUB  shift, and go to state 143
+    MUL  shift, and go to state 144
+    DIV  shift, and go to state 145
+    MOD  shift, and go to state 146
+
+    $default  reduce using rule 105 (NT_UNARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 132
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+  106 NT_UNARY_OPERATION: SUB NT_EXPRESSION .
+
+    $default  reduce using rule 106 (NT_UNARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 133
+
+   55 NT_LOOP_STATEMENT: KW_WHILE NT_EXPRESSION KW_DO . NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    KW_BEGIN  shift, and go to state 24
+
+    NT_COMPOUND_STATEMENT  go to state 158
+
+
+State 134
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION OR . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 159
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 135
+
+   92 NT_BINARY_OPERATION: NT_EXPRESSION AND . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 160
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 136
+
+   99 NT_RELATIONAL_OPERATOR: LT .
+
+    $default  reduce using rule 99 (NT_RELATIONAL_OPERATOR)
+
+
+State 137
+
+  103 NT_RELATIONAL_OPERATOR: GT .
+
+    $default  reduce using rule 103 (NT_RELATIONAL_OPERATOR)
+
+
+State 138
+
+  104 NT_RELATIONAL_OPERATOR: EQ .
+
+    $default  reduce using rule 104 (NT_RELATIONAL_OPERATOR)
+
+
+State 139
+
+  100 NT_RELATIONAL_OPERATOR: LE .
+
+    $default  reduce using rule 100 (NT_RELATIONAL_OPERATOR)
+
+
+State 140
+
+  102 NT_RELATIONAL_OPERATOR: GE .
+
+    $default  reduce using rule 102 (NT_RELATIONAL_OPERATOR)
+
+
+State 141
+
+  101 NT_RELATIONAL_OPERATOR: NE .
+
+    $default  reduce using rule 101 (NT_RELATIONAL_OPERATOR)
+
+
+State 142
+
+   95 NT_BINARY_OPERATION: NT_EXPRESSION ADD . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 161
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 143
+
+   94 NT_BINARY_OPERATION: NT_EXPRESSION SUB . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 162
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 144
+
+   98 NT_BINARY_OPERATION: NT_EXPRESSION MUL . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 163
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 145
+
+   96 NT_BINARY_OPERATION: NT_EXPRESSION DIV . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 164
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 146
+
+   97 NT_BINARY_OPERATION: NT_EXPRESSION MOD . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 165
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 147
+
+   93 NT_BINARY_OPERATION: NT_EXPRESSION NT_RELATIONAL_OPERATOR . NT_EXPRESSION
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 166
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 148
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN . NT_COMPOUND_STATEMENT KW_ELSE NT_COMPOUND_STATEMENT KW_END KW_IF
+   53                         | KW_IF NT_EXPRESSION KW_THEN . NT_COMPOUND_STATEMENT KW_END KW_IF
+
+    KW_BEGIN  shift, and go to state 24
+
+    NT_COMPOUND_STATEMENT  go to state 167
+
+
+State 149
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT . NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    DECIMAL  shift, and go to state 30
+    OCTAL    shift, and go to state 31
+
+    NT_INTEGER_LITERAL  go to state 168
+
+
+State 150
+
+   50 NT_PRINT_STATEMENT: KW_PRINT NT_EXPRESSION SEMICOLON .
+
+    $default  reduce using rule 50 (NT_PRINT_STATEMENT)
+
+
+State 151
+
+   51 NT_READ_STATEMENT: KW_READ NT_EXPRESSION SEMICOLON .
+
+    $default  reduce using rule 51 (NT_READ_STATEMENT)
+
+
+State 152
+
+   57 NT_RETURN_STATEMENT: KW_RETURN NT_EXPRESSION SEMICOLON .
+
+    $default  reduce using rule 57 (NT_RETURN_STATEMENT)
+
+
+State 153
+
+   49 NT_ASSIGNMENT: NT_VARIABLE_REFERENCE ASSIGNMENT NT_EXPRESSION . SEMICOLON
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    SEMICOLON  shift, and go to state 169
+    OR         shift, and go to state 134
+    AND        shift, and go to state 135
+    LT         shift, and go to state 136
+    GT         shift, and go to state 137
+    EQ         shift, and go to state 138
+    LE         shift, and go to state 139
+    GE         shift, and go to state 140
+    NE         shift, and go to state 141
+    ADD        shift, and go to state 142
+    SUB        shift, and go to state 143
+    MUL        shift, and go to state 144
+    DIV        shift, and go to state 145
+    MOD        shift, and go to state 146
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 154
+
+   89 NT_EXPRESSION_LIST: NT_EXPRESSION COMMA . NT_EXPRESSION_LIST
+
+    LEFT_PAREN  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 68
+    DECIMAL     shift, and go to state 30
+    OCTAL       shift, and go to state 31
+    FLOAT       shift, and go to state 32
+    SCIENTIFIC  shift, and go to state 33
+    KW_TRUE     shift, and go to state 39
+    KW_FALSE    shift, and go to state 40
+    STRING      shift, and go to state 41
+    NOT         shift, and go to state 102
+    SUB         shift, and go to state 103
+
+    NT_EXPRESSION          go to state 125
+    NT_LITERAL_CONSTANT    go to state 105
+    NT_INTEGER_LITERAL     go to state 106
+    NT_REAL_LITERAL        go to state 107
+    NT_STRING_LITERAL      go to state 108
+    NT_BOOLEAN_LITERAL     go to state 109
+    NT_VARIABLE_REFERENCE  go to state 110
+    NT_FUNCTION_CALL       go to state 111
+    NT_EXPRESSION_LIST     go to state 170
+    NT_BINARY_OPERATION    go to state 112
+    NT_UNARY_OPERATION     go to state 113
+
+
+State 155
+
+   86 NT_FUNCTION_CALL: IDENTIFIER LEFT_PAREN NT_EXPRESSION_LIST_OPT RIGHT_PAREN .
+
+    $default  reduce using rule 86 (NT_FUNCTION_CALL)
+
+
+State 156
+
+   85 NT_BRACKET_EXPRESSION: LEFT_BRACKET NT_EXPRESSION RIGHT_BRACKET .
+
+    $default  reduce using rule 85 (NT_BRACKET_EXPRESSION)
+
+
+State 157
+
+   68 NT_EXPRESSION: LEFT_PAREN NT_EXPRESSION RIGHT_PAREN .
+
+    $default  reduce using rule 68 (NT_EXPRESSION)
+
+
+State 158
+
+   55 NT_LOOP_STATEMENT: KW_WHILE NT_EXPRESSION KW_DO NT_COMPOUND_STATEMENT . KW_END KW_DO
+
+    KW_END  shift, and go to state 171
+
+
+State 159
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   91                    | NT_EXPRESSION OR NT_EXPRESSION .
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    AND  shift, and go to state 135
+    LT   shift, and go to state 136
+    GT   shift, and go to state 137
+    EQ   shift, and go to state 138
+    LE   shift, and go to state 139
+    GE   shift, and go to state 140
+    NE   shift, and go to state 141
+    ADD  shift, and go to state 142
+    SUB  shift, and go to state 143
+    MUL  shift, and go to state 144
+    DIV  shift, and go to state 145
+    MOD  shift, and go to state 146
+
+    $default  reduce using rule 91 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 160
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   92                    | NT_EXPRESSION AND NT_EXPRESSION .
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    LT   shift, and go to state 136
+    GT   shift, and go to state 137
+    EQ   shift, and go to state 138
+    LE   shift, and go to state 139
+    GE   shift, and go to state 140
+    NE   shift, and go to state 141
+    ADD  shift, and go to state 142
+    SUB  shift, and go to state 143
+    MUL  shift, and go to state 144
+    DIV  shift, and go to state 145
+    MOD  shift, and go to state 146
+
+    $default  reduce using rule 92 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 161
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   95                    | NT_EXPRESSION ADD NT_EXPRESSION .
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    MUL  shift, and go to state 144
+    DIV  shift, and go to state 145
+    MOD  shift, and go to state 146
+
+    $default  reduce using rule 95 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 162
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   94                    | NT_EXPRESSION SUB NT_EXPRESSION .
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    MUL  shift, and go to state 144
+    DIV  shift, and go to state 145
+    MOD  shift, and go to state 146
+
+    $default  reduce using rule 94 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 163
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+   98                    | NT_EXPRESSION MUL NT_EXPRESSION .
+
+    $default  reduce using rule 98 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 164
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   96                    | NT_EXPRESSION DIV NT_EXPRESSION .
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    $default  reduce using rule 96 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 165
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   97                    | NT_EXPRESSION MOD NT_EXPRESSION .
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    $default  reduce using rule 97 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 166
+
+   91 NT_BINARY_OPERATION: NT_EXPRESSION . OR NT_EXPRESSION
+   92                    | NT_EXPRESSION . AND NT_EXPRESSION
+   93                    | NT_EXPRESSION . NT_RELATIONAL_OPERATOR NT_EXPRESSION
+   93                    | NT_EXPRESSION NT_RELATIONAL_OPERATOR NT_EXPRESSION .
+   94                    | NT_EXPRESSION . SUB NT_EXPRESSION
+   95                    | NT_EXPRESSION . ADD NT_EXPRESSION
+   96                    | NT_EXPRESSION . DIV NT_EXPRESSION
+   97                    | NT_EXPRESSION . MOD NT_EXPRESSION
+   98                    | NT_EXPRESSION . MUL NT_EXPRESSION
+
+    OR   shift, and go to state 134
+    AND  shift, and go to state 135
+    LT   shift, and go to state 136
+    GT   shift, and go to state 137
+    EQ   shift, and go to state 138
+    LE   shift, and go to state 139
+    GE   shift, and go to state 140
+    NE   shift, and go to state 141
+    ADD  shift, and go to state 142
+    SUB  shift, and go to state 143
+    MUL  shift, and go to state 144
+    DIV  shift, and go to state 145
+    MOD  shift, and go to state 146
+
+    OR        [reduce using rule 93 (NT_BINARY_OPERATION)]
+    AND       [reduce using rule 93 (NT_BINARY_OPERATION)]
+    LT        [reduce using rule 93 (NT_BINARY_OPERATION)]
+    GT        [reduce using rule 93 (NT_BINARY_OPERATION)]
+    EQ        [reduce using rule 93 (NT_BINARY_OPERATION)]
+    LE        [reduce using rule 93 (NT_BINARY_OPERATION)]
+    GE        [reduce using rule 93 (NT_BINARY_OPERATION)]
+    NE        [reduce using rule 93 (NT_BINARY_OPERATION)]
+    ADD       [reduce using rule 93 (NT_BINARY_OPERATION)]
+    SUB       [reduce using rule 93 (NT_BINARY_OPERATION)]
+    MUL       [reduce using rule 93 (NT_BINARY_OPERATION)]
+    DIV       [reduce using rule 93 (NT_BINARY_OPERATION)]
+    MOD       [reduce using rule 93 (NT_BINARY_OPERATION)]
+    $default  reduce using rule 93 (NT_BINARY_OPERATION)
+
+    NT_RELATIONAL_OPERATOR  go to state 147
+
+
+State 167
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT . KW_ELSE NT_COMPOUND_STATEMENT KW_END KW_IF
+   53                         | KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT . KW_END KW_IF
+
+    KW_ELSE  shift, and go to state 172
+    KW_END   shift, and go to state 173
+
+
+State 168
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL . KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    KW_TO  shift, and go to state 174
+
+
+State 169
+
+   49 NT_ASSIGNMENT: NT_VARIABLE_REFERENCE ASSIGNMENT NT_EXPRESSION SEMICOLON .
+
+    $default  reduce using rule 49 (NT_ASSIGNMENT)
+
+
+State 170
+
+   89 NT_EXPRESSION_LIST: NT_EXPRESSION COMMA NT_EXPRESSION_LIST .
+
+    $default  reduce using rule 89 (NT_EXPRESSION_LIST)
+
+
+State 171
+
+   55 NT_LOOP_STATEMENT: KW_WHILE NT_EXPRESSION KW_DO NT_COMPOUND_STATEMENT KW_END . KW_DO
+
+    KW_DO  shift, and go to state 175
+
+
+State 172
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_ELSE . NT_COMPOUND_STATEMENT KW_END KW_IF
+
+    KW_BEGIN  shift, and go to state 24
+
+    NT_COMPOUND_STATEMENT  go to state 176
+
+
+State 173
+
+   53 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_END . KW_IF
+
+    KW_IF  shift, and go to state 177
+
+
+State 174
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO . NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    DECIMAL  shift, and go to state 30
+    OCTAL    shift, and go to state 31
+
+    NT_INTEGER_LITERAL  go to state 178
+
+
+State 175
+
+   55 NT_LOOP_STATEMENT: KW_WHILE NT_EXPRESSION KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO .
+
+    $default  reduce using rule 55 (NT_LOOP_STATEMENT)
+
+
+State 176
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_ELSE NT_COMPOUND_STATEMENT . KW_END KW_IF
+
+    KW_END  shift, and go to state 179
+
+
+State 177
+
+   53 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_END KW_IF .
+
+    $default  reduce using rule 53 (NT_CONDITIONAL_STATEMENT)
+
+
+State 178
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL . KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    KW_DO  shift, and go to state 180
+
+
+State 179
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_ELSE NT_COMPOUND_STATEMENT KW_END . KW_IF
+
+    KW_IF  shift, and go to state 181
+
+
+State 180
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO . NT_COMPOUND_STATEMENT KW_END KW_DO
+
+    KW_BEGIN  shift, and go to state 24
+
+    NT_COMPOUND_STATEMENT  go to state 182
+
+
+State 181
+
+   52 NT_CONDITIONAL_STATEMENT: KW_IF NT_EXPRESSION KW_THEN NT_COMPOUND_STATEMENT KW_ELSE NT_COMPOUND_STATEMENT KW_END KW_IF .
+
+    $default  reduce using rule 52 (NT_CONDITIONAL_STATEMENT)
+
+
+State 182
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT . KW_END KW_DO
+
+    KW_END  shift, and go to state 183
+
+
+State 183
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END . KW_DO
+
+    KW_DO  shift, and go to state 184
+
+
+State 184
+
+   56 NT_LOOP_STATEMENT: KW_FOR IDENTIFIER ASSIGNMENT NT_INTEGER_LITERAL KW_TO NT_INTEGER_LITERAL KW_DO NT_COMPOUND_STATEMENT KW_END KW_DO .
+
+    $default  reduce using rule 56 (NT_LOOP_STATEMENT)
